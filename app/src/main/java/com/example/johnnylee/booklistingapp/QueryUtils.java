@@ -70,14 +70,23 @@ public final class QueryUtils {
                 // Get a single earthquake at position i within the list of earthquakes
                 JSONObject currentBook = bookArray.getJSONObject(i);
                 JSONObject volumeInfo = currentBook.getJSONObject("volumeInfo");
-                String title = volumeInfo.getString("title");
-                String authors = volumeInfo.getString("authors");
-                String infoLink = volumeInfo.getString("infoLink");
-                JSONObject imageLinks = volumeInfo.getJSONObject("imageLinks");
-                String thumbnailLink = imageLinks.getString("thumbnail");
 
-                Book book = new Book(title, authors, infoLink, thumbnailLink);
-                books.add(book);
+                Boolean hasProperies = volumeInfo.has("title")
+                        && volumeInfo.has("authors")
+                        && volumeInfo.has("infoLink")
+                        && volumeInfo.has("imageLinks");
+
+                if (hasProperies) {
+                    String title = volumeInfo.getString("title");
+                    String authors = volumeInfo.getString("authors");
+                    String infoLink = volumeInfo.getString("infoLink");
+                    JSONObject imageLinks = volumeInfo.getJSONObject("imageLinks");
+                    String thumbnailLink = imageLinks.getString("thumbnail");
+
+                    Book book = new Book(title, authors, infoLink, thumbnailLink);
+                    books.add(book);
+
+                }
             }
 
         } catch (JSONException e) {
